@@ -38,7 +38,26 @@ export const actions = {
 		if (payload.type == 'hard') commit('setCharacters', []);
 		payload.type = 'soft';
 		this.dispatch('addEmptyCards');
-		axios.get(`${getters.api}/`)
+		let apiUrl = '/';
+		let countParams = 0;
+		let filters = getters.getFilters;
+		if (filters.name) {
+			if (countParams == 0) apiUrl += `?name=${filters.name}`
+			else apiUrl += `&name=${filters.name}`
+			countParams++;
+		}
+		if (filters.gender) {
+			if (countParams == 0) apiUrl += `?gender=${filters.gender}`
+			else apiUrl += `&gender=${filters.gender}`
+			countParams++;
+		}
+		if (filters.status) {
+			if (countParams == 0) apiUrl += `?status=${filters.status}`
+			else apiUrl += `&status=${filters.status}`
+			countParams++;
+		}
+		console.log(apiUrl);
+		axios.get(`${getters.api}${apiUrl}`)
 			.then(res => {
 				commit('setMaxPage', res.data.info.pages);
 				commit('setPage', 1);
@@ -56,7 +75,9 @@ export const actions = {
 					});
 				}
 				commit('setCharacters', outputMass);
-				commit('setLoadingCharacters', false);
+				this.dispatch('deleteEmptyCards');
+			})
+			.catch(err => {
 				this.dispatch('deleteEmptyCards');
 			})
 	},
@@ -66,7 +87,15 @@ export const actions = {
 		if (currPage + 1 > maxPage) return;
 		this.dispatch('addEmptyCards');
 		commit('setLoadingCharacters', true);
-		axios.get(`${getters.api}/?page=${currPage + 1}`)
+		let apiUrl = `/?page=${currPage + 1}`;
+		let filters = getters.getFilters;
+		if (filters.name)
+			apiUrl += `&name=${filters.name}`
+		if (filters.gender)
+			apiUrl += `&gender=${filters.gender}`
+		if (filters.status)
+			apiUrl += `&status=${filters.status}`
+		axios.get(`${getters.api}${apiUrl}`)
 			.then(res => {
 				let copyMass = getters.getCharacters;
 				let outputMass = []
@@ -86,21 +115,14 @@ export const actions = {
 				commit('setLoadingCharacters', false);
 				this.dispatch('deleteEmptyCards');
 			})
+			.catch(err => {
+				commit('setLoadingCharacters', false);
+				this.dispatch('deleteEmptyCards');
+			})
 	},
 	loadWithFilters({commit, getters}, payload) {
-		let currentFilters = getters.getFilters;
-		if (currentFilters.name == payload.name &&
-			currentFilters.gender == payload.gender &&
-			currentFilters.status == payload.status) return ;
 		this.dispatch('setFilters', payload);
-		let copyMass = getters.getCharacters;
-		let outputMass = [];
-		for (let i of copyMass) {
-			if (payload.name && !i.empty && i.name.toLowerCase().indexOf(payload.name.toLowerCase()) >= 0) outputMass.push(i);
-			if (payload.gender && !i.empty && i.gender == payload.gender) outputMass.push(i);
-			if (payload.status && !i.empty && i.status == payload.status) outputMass.push(i);
-		}
-		commit('setCharacters', outputMass);
+		this.dispatch('init', {type: 'hard',});
 	},
 	addEmptyCards({commit, getters}, payload) {
 		let copyMass = getters.getCharacters;

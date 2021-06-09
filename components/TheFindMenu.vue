@@ -45,8 +45,8 @@ export default {
 			this.name = '';
 			this.gender = '';
 			this.status = '';
-			this.$store.dispatch('init', {type: 'hard'});
 			this.$store.dispatch('resetFilters');
+			this.$store.dispatch('init', {type: 'hard'});
 		}
 	},
 }
