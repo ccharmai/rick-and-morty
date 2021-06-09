@@ -102,7 +102,7 @@ export default {
 		padding: 0;
 	}
 	.mt {
-		margin-top: 68px;
+		margin-top: 60px;
 	}
 	.main-container {
 		display: flex;

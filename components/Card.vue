@@ -1,15 +1,15 @@
 <template>
-	<div class="components_card__wrapper" :class="{ 'empty-card': pers == null }">
+	<div class="components_card__wrapper" :class="{ 'empty-card': character == null }">
 		<v-card width="250" >
-			<v-img class="white--text align-end img" :src="pers.img" />
+			<v-img class="white--text align-end img" :src="character.img" />
 			<v-card-text class="text--primary">
 				<v-row>
 					<v-col class="col-8">
-						<div class="pers-name">{{ pers.name }}</div>
-						<div class="pers-type">{{ pers.type }}</div>
+						<div class="character-name">{{ character.name }}</div>
+						<div class="character-type">{{ character.type }}</div>
 					</v-col>
 					<v-col class="col-4 alive-status">
-						<div class="indicator" :class="{'green': pers.alive == 'yes', 'red': pers.alive == 'no', 'grey': pers.alive == 'na'}"></div>
+						<div class="indicator" :class="{'green': character.alive == 'yes', 'red': character.alive == 'no', 'grey': character.alive == 'na'}"></div>
 						<div class="status">{{ live_status }}</div>
 					</v-col>
 				</v-row>
@@ -21,13 +21,13 @@
 <script>
 export default {
 	props: {
-		pers: { type: Object, default: null, },
+		character: { type: Object, default: null, },
 	},
 	computed: {
 		live_status() {
-			if (this.pers.alive == 'yes') return 'Alive';
-			if (this.pers.alive == 'no') return 'Dead';
-			if (this.pers.alive == 'na') return 'N/A';
+			if (this.character.alive == 'yes') return 'Alive';
+			if (this.character.alive == 'no') return 'Dead';
+			if (this.character.alive == 'na') return 'N/A';
 		}
 	},
 }
@@ -41,11 +41,11 @@ export default {
 			width: 250px;
 			height: 250px;
 		}
-		.pers-name {
+		.character-name {
 			font-size: 110%;
 			font-weight: bold;
 		}
-		.pers-type {
+		.character-type {
 			font-size: 90%;
 			color: grey;
 		}

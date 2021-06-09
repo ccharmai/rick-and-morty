@@ -1,7 +1,7 @@
 <template>
 	<div class="page_characters__wrapper">
 		<v-container class="characters-container">
-			<Card v-for="i in 10" :key="i" :pers="pers" />
+			<Card v-for="(character, index) in characters" :key="index" :character="character" />
 		</v-container>
 	</div>
 </template>
@@ -11,14 +11,14 @@ import Card from "~/components/Card.vue";
 
 export default {
 	components: { Card, },
-	data() {return {
-		pers: {
-			name: 'Rick Sanchez',
-			type: 'Human',
-			alive: 'na',
-			img: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+	created() {
+		this.$store.dispatch('setExampleCharacters');
+	},
+	computed: {
+		characters() {
+			return this.$store.getters.getCharacters;
 		}
-	}},
+	}
 }
 </script>
 
