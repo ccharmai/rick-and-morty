@@ -27,7 +27,7 @@
 						<v-icon>mdi-map-marker-multiple</v-icon>
 						</v-list-item-action>
 						<v-list-item-content>
-						<v-list-item-title>Locations {{mini}}</v-list-item-title>
+						<v-list-item-title>Locations</v-list-item-title>
 						</v-list-item-content>
 					</v-list-item>
 					<v-list-item link to="/episodes">
