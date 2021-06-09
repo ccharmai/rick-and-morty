@@ -1,12 +1,16 @@
 <template>
 	<div class="components_find_menu__wrapper">
-		Поисковый компонент
+		Поисковый компонент. Показано - {{ len }} персонажей
 	</div>
 </template>
 
 <script>
 export default {
-
+	computed: {
+		len() {
+			return this.$store.getters.getCharacters.length;
+		}
+	}
 }
 </script>
 

@@ -20,10 +20,6 @@ import TheFindMenu from "~/components/TheFindMenu.vue";
 export default {
 	components: { Card, TheFindMenu, },
 
-	data() {return {
-		counter: 0,
-	}},
-
 	computed: {
 		characters() {
 			return this.$store.getters.getCharacters;
@@ -36,9 +32,8 @@ export default {
 	methods: {
 		infiniteScrolling(entries, observer, isIntersecting) {
 			if (this.loading || !isIntersecting) return ;
-			if (this.counter == 0) { this.counter++; return ;}
-			console.log('долистали');
-			this.counter++;
+			console.log('loading more...');
+			this.$store.dispatch('loadMore');
 		}
 	},
 }

@@ -9,7 +9,7 @@
 						<div class="character-type">{{ character.type }}</div>
 					</v-col>
 					<v-col class="col-4 alive-status">
-						<div class="indicator" :class="{'green': character.alive == 'yes', 'red': character.alive == 'no', 'grey': character.alive == 'na'}"></div>
+						<div class="indicator" :class="{'green': character.alive == 'Alive', 'red': character.alive == 'Dead', 'grey': character.alive == 'unknown'}"></div>
 						<div class="status">{{ live_status }}</div>
 					</v-col>
 				</v-row>
@@ -25,9 +25,9 @@ export default {
 	},
 	computed: {
 		live_status() {
-			if (this.character.alive == 'yes') return 'Alive';
-			if (this.character.alive == 'no') return 'Dead';
-			if (this.character.alive == 'na') return 'N/A';
+			if (this.character.alive == 'Alive') return 'Alive';
+			if (this.character.alive == 'Dead') return 'Dead';
+			if (this.character.alive == 'unknown') return 'N/A';
 		}
 	},
 }
