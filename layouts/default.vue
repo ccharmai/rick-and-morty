@@ -2,10 +2,19 @@
 	<div id="app">
 	<v-app id="inspire">
 		<v-app id="inspire">
-		<v-navigation-drawer v-model="drawer" app clipped >
+		<v-navigation-drawer
+			v-model="drawer"
+			app clipped
+			:temporary="$vuetify.breakpoint.smAndDown"
+			:permanent="$vuetify.breakpoint.mdOnly"
+		>
 			<v-container class="main-container" >
 				<v-list>
-					<v-list-item link to="/characters">
+					<v-app-bar app clipped-left v-if="mini">
+						<v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+						<v-toolbar-title><b>Rick and Morty</b></v-toolbar-title>
+					</v-app-bar>
+					<v-list-item link to="/characters" :class="{'mt': mini}">
 						<v-list-item-action>
 						<v-icon>mdi-account-multiple</v-icon>
 						</v-list-item-action>
@@ -18,7 +27,7 @@
 						<v-icon>mdi-map-marker-multiple</v-icon>
 						</v-list-item-action>
 						<v-list-item-content>
-						<v-list-item-title>Locations</v-list-item-title>
+						<v-list-item-title>Locations {{mini}}</v-list-item-title>
 						</v-list-item-content>
 					</v-list-item>
 					<v-list-item link to="/episodes">
@@ -61,7 +70,7 @@
 
 		<v-app-bar app clipped-left >
 			<v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-			<v-toolbar-title>Rick and Morty</v-toolbar-title>
+			<v-toolbar-title><b>Rick and Morty</b></v-toolbar-title>
 		</v-app-bar>
 
 		<v-main>
@@ -79,12 +88,21 @@ export default {
 	data() {return {
 		drawer: null,
 	}},
+	computed: {
+		mini() {
+			if (!this.$vuetify.breakpoint.smAndDown) return false;
+			return true;
+		}
+	}
 }
 </script>
 
 <style>
 	.nav {
 		padding: 0;
+	}
+	.mt {
+		margin-top: 68px;
 	}
 	.main-container {
 		display: flex;
