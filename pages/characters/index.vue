@@ -30,9 +30,7 @@ export default {
 	},
 
 	methods: {
-		infiniteScrolling(entries, observer, isIntersecting) {
-			if (this.loading || !isIntersecting) return ;
-			console.log('loading more...');
+		infiniteScrolling() {
 			this.$store.dispatch('loadMore');
 		}
 	},

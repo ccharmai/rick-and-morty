@@ -40,6 +40,11 @@ export default {
 	methods: {
 		refresh() {
 			this.$store.dispatch('loadWithFilters', { name: this.name, gender: this.gender, status: this.status });
+			window.scrollTo({
+				top: 0,
+				left: 0,
+				behavior: 'smooth'
+			});
 		},
 		clear() {
 			this.name = '';
@@ -47,6 +52,11 @@ export default {
 			this.status = '';
 			this.$store.dispatch('resetFilters');
 			this.$store.dispatch('init', {type: 'hard'});
+			window.scrollTo({
+				top: 0,
+				left: 0,
+				behavior: 'smooth'
+			});
 		}
 	},
 }
