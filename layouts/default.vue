@@ -7,6 +7,7 @@
 			app clipped
 			:temporary="$vuetify.breakpoint.smAndDown"
 			:permanent="$vuetify.breakpoint.mdOnly"
+			style="z-index: 102;"
 		>
 			<v-container class="main-container" >
 				<v-list>
@@ -74,7 +75,7 @@
 		</v-app-bar>
 
 		<v-main>
-			<v-container fluid >
+			<v-container fluid class="p0" >
         		<Nuxt />
 			</v-container>
 		</v-main>
@@ -118,5 +119,8 @@ export default {
 	}
 	.social-container .social-item {
 		margin: 15px;
+	}
+	.p0 {
+		padding: 0;
 	}
 </style>
