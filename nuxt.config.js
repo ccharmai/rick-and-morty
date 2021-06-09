@@ -9,10 +9,10 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - rick-and-morty',
-    title: 'rick-and-morty',
+    titleTemplate: '%s',
+    title: 'Rick and Morty',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ru'
     },
     meta: [
       { charset: 'utf-8' },
@@ -71,5 +71,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  router: {
+    mode: 'hash'
+  },
 }
