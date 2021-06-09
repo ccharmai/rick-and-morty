@@ -2,25 +2,46 @@ import axios from 'axios';
 
 export const state = () => ({
 	characters: [],
+	loadingCharacters: true,
 })
 
 export const mutations = {
 	setCharacters(state, characters) {
 		state.characters = characters;
 	},
+	setLoadingCharacters(state, status) {
+		state.loadingCharacters = status;
+	}
 }
 
 export const actions = {
-	setExampleCharacters({commit}, payload) {
-		let oneCharacter = { name: 'Rick Sanchez', type: 'Human', alive: 'yes', img: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg' };
-		let outputMass = [];
-		for (let i = 0; i < 10; i++) { outputMass.push(oneCharacter) }
-		commit('setCharacters', outputMass);
+	init({commit, getters}, payload) {
+		axios.get(`${getters.api}/`)
+			.then(res => {
+				let outputMass = [];
+				for (let i of res.data.results) {
+					outputMass.push({
+						id: i.id,
+						name: i.name,
+						status: i.status,
+						type: i.species,
+						img: i.image
+					});
+				}
+				commit('setCharacters', outputMass);
+				commit('setLoadingCharacters', false);
+			})
 	},
 }
 
 export const getters = {
 	getCharacters(state) {
 		return state.characters;
-	}
+	},
+	getLoadingCharacters(state) {
+		return state.loadingCharacters;
+	},
+	api(state) {
+		return 'https://rickandmortyapi.com/api/character';
+	},
 }

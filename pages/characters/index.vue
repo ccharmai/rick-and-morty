@@ -2,11 +2,13 @@
 	<div class="page_characters__wrapper">
 
 		<h2 class="h_title">Characters</h2>
-		<TheFindMenu class="sticky" :class="{'sticky-big': !$vuetify.breakpoint.smAndDown}" />
+		<TheFindMenu :class="{'sticky': $vuetify.breakpoint.smAndUp, 'sticky-big': !$vuetify.breakpoint.smAndDown}" />
 
 		<v-container class="characters-container">
 			<Card v-for="(character, index) in characters" :key="index" :character="character" />
 		</v-container>
+
+		<div style="margin-top: 20px;" v-intersect="infiniteScrolling"></div>
 
 	</div>
 </template>
@@ -18,15 +20,27 @@ import TheFindMenu from "~/components/TheFindMenu.vue";
 export default {
 	components: { Card, TheFindMenu, },
 
-	created() {
-		this.$store.dispatch('setExampleCharacters');
-	},
+	data() {return {
+		counter: 0,
+	}},
 
 	computed: {
 		characters() {
 			return this.$store.getters.getCharacters;
+		},
+		loading() {
+			return this.$store.getters.getLoadingCharacters;
+		},
+	},
+
+	methods: {
+		infiniteScrolling(entries, observer, isIntersecting) {
+			if (this.loading || !isIntersecting) return ;
+			if (this.counter == 0) { this.counter++; return ;}
+			console.log('долистали');
+			this.counter++;
 		}
-	}
+	},
 }
 </script>
 

@@ -94,6 +94,9 @@ export default {
 			if (!this.$vuetify.breakpoint.smAndDown) return false;
 			return true;
 		}
+	},
+	created() {
+		this.$store.dispatch('init');
 	}
 }
 </script>

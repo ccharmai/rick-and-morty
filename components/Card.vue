@@ -1,6 +1,6 @@
 <template>
 	<div class="components_card__wrapper" :class="{ 'empty-card': character == null }">
-		<v-card width="250" >
+		<v-card width="250" height="350" >
 			<v-img class="white--text align-end img" :src="character.img" />
 			<v-card-text class="text--primary">
 				<v-row>
@@ -44,6 +44,7 @@ export default {
 		.character-name {
 			font-size: 110%;
 			font-weight: bold;
+			text-overflow: ellips;
 		}
 		.character-type {
 			font-size: 90%;
