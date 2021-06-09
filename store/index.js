@@ -24,6 +24,7 @@ export const mutations = {
 
 export const actions = {
 	init({commit, getters}, payload) {
+		if (payload == 'hard') commit('setCharacters', []);
 		this.dispatch('addEmptyCards');
 		axios.get(`${getters.api}/`)
 			.then(res => {
@@ -41,7 +42,6 @@ export const actions = {
 						img: i.image
 					});
 				}
-				console.log(outputMass)
 				commit('setCharacters', outputMass);
 				commit('setLoadingCharacters', false);
 				this.dispatch('deleteEmptyCards');

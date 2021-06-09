@@ -36,6 +36,11 @@ export default {
 			this.$store.dispatch('loadMore');
 		}
 	},
+
+	beforeRouteLeave (to, from, next) {
+		next();
+		this.$store.dispatch('init', 'hard');
+	}
 }
 </script>
 

@@ -8,9 +8,12 @@
 export default {
 	computed: {
 		len() {
-			return this.$store.getters.getCharacters.length;
+			let pers = this.$store.getters.getCharacters;
+			let length = 0;
+			for (let i of pers) if (!i.empty) length++;
+			return length;
 		}
-	}
+	},
 }
 </script>
 
