@@ -5,6 +5,12 @@ export const state = () => ({
 	page: 0,
 	maxPage: 0,
 	loadingCharacters: true,
+	filters: {
+		name: '',
+		gender: '',
+		status: ''
+	},
+	parametersQuery: '',
 })
 
 export const mutations = {
@@ -20,11 +26,17 @@ export const mutations = {
 	setMaxPage(state, maxPage) {
 		state.maxPage = maxPage;
 	},
+	setFilters(state, payload) {
+		state.filters.name = payload.name;
+		state.filters.gender = payload.gender;
+		state.filters.status = payload.status;
+	},
 }
 
 export const actions = {
 	init({commit, getters}, payload) {
-		if (payload == 'hard') commit('setCharacters', []);
+		if (payload.type == 'hard') commit('setCharacters', []);
+		payload.type = 'soft';
 		this.dispatch('addEmptyCards');
 		axios.get(`${getters.api}/`)
 			.then(res => {
@@ -39,7 +51,8 @@ export const actions = {
 						name: i.name,
 						alive: i.status,
 						type: i.species,
-						img: i.image
+						img: i.image,
+						gender: i.gender,
 					});
 				}
 				commit('setCharacters', outputMass);
@@ -65,6 +78,7 @@ export const actions = {
 						type: i.species,
 						img: i.image,
 						empty: false,
+						gender: i.gender,
 					});
 				}
 				commit('setCharacters', outputMass);
@@ -73,9 +87,24 @@ export const actions = {
 				this.dispatch('deleteEmptyCards');
 			})
 	},
+	loadWithFilters({commit, getters}, payload) {
+		let currentFilters = getters.getFilters;
+		if (currentFilters.name == payload.name &&
+			currentFilters.gender == payload.gender &&
+			currentFilters.status == payload.status) return ;
+		this.dispatch('setFilters', payload);
+		let copyMass = getters.getCharacters;
+		let outputMass = [];
+		for (let i of copyMass) {
+			if (payload.name && !i.empty && i.name.toLowerCase().indexOf(payload.name.toLowerCase()) >= 0) outputMass.push(i);
+			if (payload.gender && !i.empty && i.gender == payload.gender) outputMass.push(i);
+			if (payload.status && !i.empty && i.status == payload.status) outputMass.push(i);
+		}
+		commit('setCharacters', outputMass);
+	},
 	addEmptyCards({commit, getters}, payload) {
 		let copyMass = getters.getCharacters;
-		let outputMass = []
+		let outputMass = [];
 		for (let i of copyMass) {outputMass.push(i)}
 		for (let i = 0; i < 20; i++) {
 			outputMass.push({
@@ -84,6 +113,7 @@ export const actions = {
 				type: '',
 				img: '',
 				empty: true,
+				gender: '',
 			});
 		}
 		commit('setCharacters', outputMass);
@@ -93,6 +123,12 @@ export const actions = {
 		let outputMass = [];
 		for (let i of copyMass) {if (!i.empty) outputMass.push(i)}
 		commit('setCharacters', outputMass);
+	},
+	setFilters({commit}, filters) {
+		commit('setFilters', filters);
+	},
+	resetFilters({commit}, payload) {
+		commit('setFilters', {name: '', gender: '', status: ''})
 	}
 }
 
@@ -112,4 +148,10 @@ export const getters = {
 	getMaxPage(state) {
 		return state.maxPage;
 	},
+	getFilters(state) {
+		return state.filters;
+	},
+	getParametersQuery(state) {
+		return state.parametersQuery;
+	}
 }
