@@ -1,6 +1,6 @@
 <template>
   <v-app dark align="center">
-    <v-row justify="center" align="center">
+    <v-row justify="center" align="center" style="margin-top: -100px;">
       <v-col>
         <h1 v-if="error.statusCode === 404">
           {{ pageNotFound }}
